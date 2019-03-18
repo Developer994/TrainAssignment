@@ -1,8 +1,28 @@
 var trainName;
 var trainDest;
 // Var for first train time
-var ftt;
-var freq;
+var FTT;
+var Freq;
+
+// var startTime = moment("12:16:59 am", "HH:mm:ss a");
+var ch = moment().hour();
+var currentHour = ch.toString();
+console.log(currentHour);
+var cm = moment().minute();
+var currentMinute = cm.toString();
+console.log(currentMinute);
+var currentTime = (currentHour + ":" + currentMinute);
+console.log(currentTime)
+// var endTime = moment("06:12:07 pm", "HH:mm:ss a");
+// var duration = moment.duration(endTime.diff(currentTime));
+// var hours = parseInt(duration.asHours());
+// var minutes = parseInt(duration.asMinutes()) - hours * 60;
+// console.log(hours + ' hour and ' + minutes + ' minutes.');
+
+// var result = endTime.diff(currentTime, 'hours') + " Hrs and " +
+//     endTime.diff(currentTime, 'minutes') + " Mns";
+// console.log(result)
+// var oneMin;
 
 
 var config = {
@@ -14,21 +34,69 @@ var config = {
     messagingSenderId: "606380286761"
 };
 firebase.initializeApp(config);
-var database = firebase.database;
+var database = firebase.database();
 
 $(document).ready(function () {
     // Waits for the submit button is clicked
     $("#submit").on("click", function (e) {
         e.preventDefault();
         getInfo();
-        WriteToDataBase();
+        writeToDataBase();
     });
 });
 
 function getInfo() {
     trainName = $("#trainName").val().trim();
     trainDest = $("#trainDest").val().trim();
-    ftt = $("#firstTrainTime").val().trim();
-    freq = $("#frequency").val().trim();
-    console.log(trainName, trainDest, ftt, freq);
+    Freq = $("#frequency").val().trim();
+    FTT = $("#firstTrainTime").val().trim();
+    console.log(trainName, trainDest, FTT, Freq);
 }
+
+function writeToDataBase() {
+    database.ref().push({
+        trainname: trainName,
+        traindest: trainDest,
+        freq: Freq,
+        ftt: FTT
+    })
+}
+
+
+// To kill the interval and restart the info on firebase.
+function intervalKill() {
+    oneMin = setInterval(timeFunc, 60000)
+}
+
+function timeFunc() {
+    alert(hello);
+}
+
+// const moment = require('moment');
+
+// let d1 = moment('2018-06-12');
+// let d2 = moment('2018-06-28');
+
+// let hours = d2.diff(d1, 'hours');
+// console.log(`Difference in hours: ${hours}`);
+
+
+database.ref().on("child_added", function (snapshot) {
+    console.table(snapshot.val());
+    var trainName = snapshot.val().trainname;
+    var trainDest = snapshot.val().traindest;
+    var Freq = snapshot.val().freq;
+    var FTT = snapshot.val().ftt;
+    var row = $("<tr>");
+    var tdTrainName = $("<td>").append(trainName);
+    var tdTrainDest = $("<td>").append(trainDest);
+    var tdFreq = $("<td>").append(Freq);
+    var tdFTT = $("<td>").append(FTT);
+
+    row
+        .append(tdTrainName)
+        .append(tdTrainDest)
+        .append(tdFreq)
+        .append(tdFTT);
+    $("#table").append(row);
+})
