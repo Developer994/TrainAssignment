@@ -4,15 +4,12 @@ var trainDest;
 var FTT;
 var Freq;
 
-// var startTime = moment("12:16:59 am", "HH:mm:ss a");
-var ch = moment().hour();
-var currentHour = ch.toString();
+var currentHour = moment().hour();
 console.log(currentHour);
-var cm = moment().minute();
-var currentMinute = cm.toString();
+var currentMinute = moment().minute();
 console.log(currentMinute);
 var currentTime = (currentHour + ":" + currentMinute);
-console.log(currentTime)
+console.log(currentTime);
 // var endTime = moment("06:12:07 pm", "HH:mm:ss a");
 // var duration = moment.duration(endTime.diff(currentTime));
 // var hours = parseInt(duration.asHours());
@@ -23,7 +20,6 @@ console.log(currentTime)
 //     endTime.diff(currentTime, 'minutes') + " Mns";
 // console.log(result)
 // var oneMin;
-
 
 var config = {
     apiKey: "AIzaSyD_nWYGpwXctG5kUU0gnOPwPIoIY5xDo3Q",
@@ -64,13 +60,13 @@ function writeToDataBase() {
 
 
 // To kill the interval and restart the info on firebase.
-function intervalKill() {
-    oneMin = setInterval(timeFunc, 60000)
-}
+// function intervalKill() {
+//     oneMin = setInterval(timeFunc, 60000)
+// }
 
-function timeFunc() {
-    alert(hello);
-}
+// function timeFunc() {
+//     alert("saved data reseted");
+// }
 
 // const moment = require('moment');
 
